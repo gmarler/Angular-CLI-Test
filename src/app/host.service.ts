@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Http} from "@angular/http";
 import {Observable} from "rxjs";
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class HostService {
-  static BASE_URL: string = 'http://nydevsol10:5000/hosts';
+  static BASE_URL: string = 'http://nydevsol10:5000';
 
   constructor(private http: Http) {
   }
@@ -18,6 +19,10 @@ export class HostService {
     // }
 
     return this.http.request(queryURL).map((res: any) => res.json());
+  }
+
+  getHosts(): Observable<any[]> {
+    return this.query(`/hosts`);
   }
 
 }
