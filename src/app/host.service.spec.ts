@@ -26,9 +26,11 @@ describe('HostService', () => {
     });
   });
 
-  it('should ...', inject([HostService], (service: HostService) => {
+  it('...should exist', inject([HostService], (service: HostService) => {
     expect(service).toBeTruthy();
   }));
+
+  // TODO: Test HostService.SVC_{HOST|PORT} based on whether we are in dev or prod mode
 
   // sets up an expectation that the correct URL will being requested
   function expectURL(backend: MockBackend, url: string) {

@@ -5,7 +5,10 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class HostService {
-  static BASE_URL: string = 'http://nydevsol10:5000';
+  // TODO: Based on whether we are in dev or prod environment, make the SVC_HOST and SVC_PORT configurable
+  static SVC_HOST: string = 'nydevsol10';
+  static SVC_PORT: string = '5000';
+  static BASE_URL: string = `http://${HostService.SVC_HOST}:${HostService.SVC_PORT}`;
 
   constructor(private http: Http) {
   }
@@ -24,5 +27,12 @@ export class HostService {
   getHosts(): Observable<any[]> {
     return this.query(`/hosts`);
   }
+
+  // TODO: Create a getMetric that takes as arguments:
+  // host: string
+  // date: string
+  // subsystem: string
+  // metric: string
+  // which then calls /host/<host>/date/<date>/subsystem/<subsystem>/metric/<metric>
 
 }
