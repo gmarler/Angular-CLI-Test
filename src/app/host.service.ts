@@ -2,19 +2,33 @@ import { Injectable } from '@angular/core';
 import {Http} from "@angular/http";
 import {Observable} from "rxjs";
 import 'rxjs/add/operator/map';
+import {environment} from "../environments/environment";
 
 @Injectable()
 export class HostService {
-  // TODO: Based on whether we are in dev or prod environment, make the SVC_HOST and SVC_PORT configurable
-  static SVC_HOST: string = 'nydevsol10';
-  static SVC_PORT: string = '5000';
-  static BASE_URL: string = `http://${HostService.SVC_HOST}:${HostService.SVC_PORT}`;
+  private envName;
+
+  // Based on whether we are in dev or prod environment, make the SVC_HOST and SVC_PORT configurable
+  private SVC_HOST: string = 'nydevsol10';
+  private SVC_PORT: string;
+  private BASE_URL: string;
 
   constructor(private http: Http) {
+    if (environment.production) {
+      this.envName = "production";
+      this.SVC_PORT = '80';
+      this.BASE_URL = `http://${this.SVC_HOST}:${this.SVC_PORT}`;
+    } else {
+      this.envName = "dev";
+      this.SVC_PORT = '5000';
+      this.BASE_URL = `http://${this.SVC_HOST}:${this.SVC_PORT}`;
+    }
+    console.log(`ENVIRONMENT: ${this.envName}`);
+    console.log(`BASE_URL: ${this.BASE_URL}`);
   }
 
   query(URL: string, params?: Array<string>): Observable<any[]> {
-    let queryURL: string = `${HostService.BASE_URL}${URL}`;
+    let queryURL: string = `${this.BASE_URL}${URL}`;
 
     // TODO: Add params handling
     // if (params) {
