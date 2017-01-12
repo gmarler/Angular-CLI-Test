@@ -5,14 +5,14 @@ import 'rxjs/add/operator/map';
 import {environment} from '../environments/environment';
 import {Host} from './host';
 
-
 // TODO: This service should just be to provide the list of PA Server hosts
 
 @Injectable()
 export class HostService {
   private envName;
   private currentPAServer;
-  private currentHost: Subject<Host> = new BehaviorSubject<Host>(null);
+  private currentHost:     Subject<Host>   = new BehaviorSubject<Host>(null);
+  private currentHostList: Subject<Host[]> = new BehaviorSubject<Host[]>(null);
 
   // Based on whether we are in dev or prod environment, make the SVC_HOST and SVC_PORT configurable
   private SVC_HOST: string = 'nydevsol10';
@@ -32,11 +32,11 @@ export class HostService {
     console.log(`ENVIRONMENT: ${this.envName}`);
     console.log(`BASE_URL: ${this.BASE_URL}`);
 
-    // TODO: Use this to create BASE_URL
+    // TODO: Eventually use this to create BASE_URL
     this.currentPAServer = this.SVC_HOST;
   }
 
-  query(URL: string, params?: Array<string>): Observable<any[]> {
+  private query(URL: string, params?: Array<string>): Observable<any[]> {
     let queryURL = `${this.BASE_URL}${URL}`;
 
     // TODO: Add params handling
@@ -47,15 +47,24 @@ export class HostService {
     return this.http.request(queryURL).map((res: any) => res.json());
   }
 
-  getHosts(): Observable<any[]> {
+  public getHosts(): Observable<any[]> {
     return this.query(`/hosts`);
   }
 
-  // TODO: Create a getMetric that takes as arguments:
-  // host: string
-  // date: string
-  // subsystem: string
-  // metric: string
-  // which then calls /host/<host>/date/<date>/subsystem/<subsystem>/metric/<metric>
+  public setCurrentHost(newHost: Host): void {
+    this.currentHost.next(newHost);
+  }
 
+  /*
+   TODO: Create a getMetric that takes as arguments:
+   host: string
+   date: string
+   subsystem: string
+   metric: string
+   which then calls /host/<host>/date/<date>/subsystem/<subsystem>/metric/<metric>
+   */
 }
+
+export var hostServiceInjectables: Array<any> = [
+  HostService
+];
