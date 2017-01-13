@@ -10,10 +10,11 @@ export class HostPickerComponent implements OnInit {
   private hosts_observer;
 
   constructor(private hostService: HostService) {
-    this.hosts_observer = this.hostService.getHosts();
+    // this.hosts_observer = this.hostService.getHosts();
   }
 
   ngOnInit() {
+    this.hosts_observer = this.hostService.getHosts();
   }
 
 }
