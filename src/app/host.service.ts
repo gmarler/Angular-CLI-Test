@@ -61,12 +61,16 @@ export class HostService {
       .getHosts()
       .subscribe(
         res => {
-          let hosts =
+          let hosts: Host[] =
             res
               .map((host: any) =>
-                new Host(host.name, host.id, host.time_zone)
+                  // console.log(host);
+                  new Host(host.name, host.id, host.time_zone)
+
               );
+          console.log(hosts);
           this.currentHostList.next(hosts);
+          console.log(hosts);
         },
         err => console.log('Error Retrieving host list')
       );

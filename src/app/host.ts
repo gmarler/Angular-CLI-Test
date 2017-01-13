@@ -1,11 +1,11 @@
 export class Host {
-  name:     string;
-  id:       number;
-  timeZone: string;
+  name:      string;
+  id:        number;
+  time_zone: string;
 
-  constructor(name: string, id: number, timeZone: string) {
+  constructor(name: string, id: number, time_zone: string) {
     this.name = name;
     this.id   = id;
-    this.timeZone = timeZone;
+    this.time_zone = time_zone;
   }
 }
