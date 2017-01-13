@@ -4,17 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { HostService } from './host.service';
+import { HostPickerComponent } from './host-picker/host-picker.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HostPickerComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [HostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

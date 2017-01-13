@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import {environment} from '../environments/environment';
 import {Host} from './host';
 
+let initialHostList: Array<Host> = [];
 // TODO: This service should just be to provide the list of PA Server hosts
 
 @Injectable()
@@ -12,7 +13,7 @@ export class HostService {
   private envName;
   private currentPAServer;
   private currentHost:     Subject<Host>   = new BehaviorSubject<Host>(null);
-  private currentHostList: Subject<Host[]> = new BehaviorSubject<Host[]>(null);
+  private currentHostList: Subject<Host[]> = new BehaviorSubject<Host[]>(initialHostList);
 
   // Based on whether we are in dev or prod environment, make the SVC_HOST and SVC_PORT configurable
   private SVC_HOST: string = 'nydevsol10';
@@ -47,8 +48,23 @@ export class HostService {
     return this.http.request(queryURL).map((res: any) => res.json());
   }
 
+  // TODO: Should this be private instead?
   public getHosts(): Observable<any[]> {
     return this.query(`/hosts`);
+  }
+
+  public loadHosts() {
+    this.getHosts()
+    .subscribe(
+      res => {
+        let hosts =
+          res
+            .map((host: any) =>
+                  new Host(host.name, host.id, host.time_zone));
+        this.currentHostList.next(hosts);
+      },
+      err => console.log('Error Retrieving host list')
+    );
   }
 
   public setCurrentHost(newHost: Host): void {
@@ -64,7 +80,3 @@ export class HostService {
    which then calls /host/<host>/date/<date>/subsystem/<subsystem>/metric/<metric>
    */
 }
-
-export var hostServiceInjectables: Array<any> = [
-  HostService
-];
