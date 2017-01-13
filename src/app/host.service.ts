@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable, BehaviorSubject, Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
+
 import {environment} from '../environments/environment';
 import {Host} from './host';
+import any = jasmine.any;
 
 let initialHostList: Array<Host> = [];
 // TODO: This service should just be to provide the list of PA Server hosts
@@ -16,7 +19,7 @@ export class HostService {
   private currentHostList: Subject<Host[]> = new BehaviorSubject<Host[]>(initialHostList);
 
   // Based on whether we are in dev or prod environment, make the SVC_HOST and SVC_PORT configurable
-  private SVC_HOST: string = 'nydevsol10';
+  private SVC_HOST: string = 'nydevsol10.dev.bloomberg.com';
   private SVC_PORT: string;
   private BASE_URL: string;
 
@@ -54,17 +57,19 @@ export class HostService {
   }
 
   public loadHosts() {
-    this.getHosts()
-    .subscribe(
-      res => {
-        let hosts =
-          res
-            .map((host: any) =>
-                  new Host(host.name, host.id, host.time_zone));
-        this.currentHostList.next(hosts);
-      },
-      err => console.log('Error Retrieving host list')
-    );
+    this
+      .getHosts()
+      .subscribe(
+        res => {
+          let hosts =
+            res
+              .map((host: any) =>
+                new Host(host.name, host.id, host.time_zone)
+              );
+          this.currentHostList.next(hosts);
+        },
+        err => console.log('Error Retrieving host list')
+      );
   }
 
   public setCurrentHost(newHost: Host): void {

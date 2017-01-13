@@ -7,14 +7,15 @@ import {HostService} from '../host.service';
   styleUrls: ['./host-picker.component.css']
 })
 export class HostPickerComponent implements OnInit {
-  private hosts_observer;
+  private hosts_observer = this.hostService.getHosts();
 
   constructor(private hostService: HostService) {
     // this.hosts_observer = this.hostService.getHosts();
+    // this.hosts_observer.subscribe(console.log.bind(console));
   }
 
   ngOnInit() {
-    this.hosts_observer = this.hostService.getHosts();
+
   }
 
 }

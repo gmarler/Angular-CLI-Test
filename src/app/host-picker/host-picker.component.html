@@ -1,5 +1,5 @@
 <select name="Hosts" (change)="select.emit($event.target.value)">
-  <option *ngFor="let host of hosts">
+  <option *ngFor="let host of hosts_observer | async">
     {{ host }}
   </option>
 </select>
