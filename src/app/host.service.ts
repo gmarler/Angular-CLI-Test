@@ -60,18 +60,7 @@ export class HostService {
     this
       .getHosts()
       .subscribe(
-        res => {
-          let hosts: Host[] =
-            res
-              .map((host: any) =>
-                  // console.log(host);
-                  new Host(host.name, host.id, host.time_zone)
-
-              );
-          console.log(hosts);
-          this.currentHostList.next(hosts);
-          console.log(hosts);
-        },
+        res => this.currentHostList = res,
         err => console.log('Error Retrieving host list')
       );
   }
