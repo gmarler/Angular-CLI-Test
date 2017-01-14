@@ -3,6 +3,9 @@ import {Http, Response} from '@angular/http';
 import {Observable, BehaviorSubject, Subject} from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/catch';
+
 
 import {environment} from '../environments/environment';
 import {Host} from './host';
