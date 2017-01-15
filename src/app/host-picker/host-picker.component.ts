@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HostService} from '../host.service';
+import {Host} from "../host";
 
 @Component({
   selector: 'app-host-picker',
@@ -7,15 +8,22 @@ import {HostService} from '../host.service';
   styleUrls: ['./host-picker.component.css']
 })
 export class HostPickerComponent implements OnInit {
-  private hosts_observer = this.hostService.loadHosts();
+  // private hosts_observer = this.hostService.loadHosts();
+  errorMessage: string;
+  hosts:        Host[];
 
   constructor(private hostService: HostService) {
-    // this.hosts_observer = this.hostService.getHosts();
-    // this.hosts_observer.subscribe(console.log.bind(console));
   }
 
   ngOnInit() {
-
+    this.getHosts();
   }
 
+  getHosts() {
+    this.hostService.getHosts()
+      .subscribe(
+        hosts => this.hosts = hosts,
+        error => this.errorMessage = <any>error
+      );
+  }
 }

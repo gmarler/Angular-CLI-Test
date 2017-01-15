@@ -25,7 +25,7 @@ export class HostService {
   private SVC_HOST:  string = 'nydevsol10.dev.bloomberg.com';
   private SVC_PORT:  string;
   private BASE_URL:  string;
-  private HOSTS_URL: string = '/hosts';
+  private HOSTS_URL: string = 'app/hosts';
 
   constructor(private http: Http) {
     if (environment.production) {

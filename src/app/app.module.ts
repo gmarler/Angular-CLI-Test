@@ -3,9 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AppComponent } from './app.component';
-import { HostService } from './host.service';
-import { HostPickerComponent } from './host-picker/host-picker.component';
+import { InMemoryWebApiModule }   from 'angular-in-memory-web-api';
+import { HostData }               from "./host-data";
+import { AppComponent }           from './app.component';
+import { HostService }            from './host.service';
+import { HostPickerComponent }    from './host-picker/host-picker.component';
+
 
 @NgModule({
   declarations: [
@@ -15,7 +18,8 @@ import { HostPickerComponent } from './host-picker/host-picker.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    InMemoryWebApiModule.forRoot(HostData)
   ],
   providers: [HostService],
   bootstrap: [AppComponent]
