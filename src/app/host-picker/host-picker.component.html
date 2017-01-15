@@ -1,4 +1,4 @@
-<select name="Hosts" (change)="select.emit($event.target.value)">
+<select name="Hosts" (change)="onChange($event)">
   <option *ngFor="let host of hosts">
     {{ host.name }}
   </option>

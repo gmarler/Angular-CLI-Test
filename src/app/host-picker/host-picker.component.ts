@@ -26,4 +26,8 @@ export class HostPickerComponent implements OnInit {
         error => this.errorMessage = <any>error
       );
   }
+
+  onChange(event) {
+    console.log(event.target.value);
+  }
 }
