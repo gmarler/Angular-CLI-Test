@@ -1,6 +1,32 @@
-<select name="Hosts" (change)="onChange($event)">
-  <option *ngFor="let host of hosts">
-    {{ host.name }}
-  </option>
-</select>
-<p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+<nav class="navbar navbar-light bg-faded">
+  <h1 class="navbar-brand mb-0">Performance Analytics for Solaris</h1>
+  <form class="form-inline">
+    <label for="pa-server">PA Server</label>
+    <input type="text" class="form-control" id="pa-server" size="32"
+           placeholder="Select PA Server">
+    <label for="selected-host">Host</label>
+    <div class="btn-group" (change)="onChange($event)">
+      <button type="button"
+              class="form-control btn btn-primary dropdown-toggle"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Select Host
+      </button>
+      <div class="dropdown-menu">
+        <a href="#" class="dropdown-item" *ngFor="let host of hosts">{{ host.name }}</a>
+      </div>
+    </div>
+    <!--<select class="nav-item form-control" id="selected-host" (change)="onChange($event)"-->
+            <!--placeholder="Select Hostname">-->
+      <!--<option *ngFor="let host of hosts">-->
+        <!--{{ host.name }}-->
+      <!--</option>-->
+    <!--</select>-->
+    <label for="host_time_zone">TimeZone</label>
+    <li id="host_time_zone" class="navbar-text text-primary">N / A</li>
+
+    <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+  </form>
+
+
+
+</nav>
