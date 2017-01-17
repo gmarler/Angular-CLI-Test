@@ -28,6 +28,11 @@ export class HostPickerComponent implements OnInit {
   }
 
   onChange(event) {
-    console.log(event.target.value);
+    // For Debug
+    console.log(event);
+    // For Bootstrap 4 dropdown button menu
+    console.log(event.target.text);
+    // For select/option
+    // console.log(event.target.value);
   }
 }

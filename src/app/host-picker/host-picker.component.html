@@ -5,13 +5,13 @@
     <input type="text" class="form-control" id="pa-server" size="32"
            placeholder="Select PA Server">
     <label for="selected-host">Host</label>
-    <div class="btn-group" (change)="onChange($event)">
+    <div class="btn-group" (on-toggle)="onChange($event)">
       <button type="button"
               class="form-control btn btn-primary dropdown-toggle"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Select Host
       </button>
-      <div class="dropdown-menu">
+      <div class="dropdown-menu" >
         <a href="#" class="dropdown-item" *ngFor="let host of hosts">{{ host.name }}</a>
       </div>
     </div>
