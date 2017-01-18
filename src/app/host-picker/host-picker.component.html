@@ -1,18 +1,24 @@
 <nav class="navbar navbar-light bg-faded">
   <h1 class="navbar-brand mb-0">Performance Analytics for Solaris</h1>
   <form class="form-inline">
-    <label for="pa-server">PA Server</label>
-    <input type="text" class="form-control" id="pa-server" size="32"
-           placeholder="Select PA Server">
-    <label for="selected-host">Host</label>
-    <div class="btn-group" (on-toggle)="onChange($event)">
-      <button type="button"
-              class="form-control btn btn-primary dropdown-toggle"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Select Host
-      </button>
-      <div class="dropdown-menu" >
-        <a href="#" class="dropdown-item" *ngFor="let host of hosts">{{ host.name }}</a>
+    <div class="input-group">
+      <span class="input-group-addon">PA Server</span>
+      <input type="text" class="form-control" id="pa-server" size="32"
+             aria-describedby="basic-addon1"
+             placeholder="Select PA Server">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon">Host</span>
+      <div class="btn-group" (on-toggle)="onChange($event)">
+        <button type="button"
+                class="form-control btn btn-primary dropdown-toggle"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                aria-describedby="basic-addon1">
+          Select Host
+        </button>
+        <div class="dropdown-menu" >
+          <a href="#" class="dropdown-item" *ngFor="let host of hosts">{{ host.name }}</a>
+        </div>
       </div>
     </div>
     <!--<select class="nav-item form-control" id="selected-host" (change)="onChange($event)"-->
@@ -21,8 +27,13 @@
         <!--{{ host.name }}-->
       <!--</option>-->
     <!--</select>-->
-    <label for="host_time_zone">TimeZone</label>
-    <li id="host_time_zone" class="navbar-text text-primary">N / A</li>
+    <div class="input-group">
+      <span class="input-group-addon">TimeZone</span>
+      <span id="host_time_zone" class="text-primary input-group-addon"
+            aria-describedby="basic-addon1">
+        N / A
+      </span>
+    </div>
 
     <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
   </form>
