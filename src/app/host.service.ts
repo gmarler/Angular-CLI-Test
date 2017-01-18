@@ -85,6 +85,10 @@ export class HostService {
     this.currentHost.next(newHost);
   }
 
+  public getCurrentHost(): Subject<Host> {
+    return this.currentHost;
+  }
+
   /*
    TODO: Create a getMetric that takes as arguments:
    host: string

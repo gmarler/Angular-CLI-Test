@@ -3,21 +3,23 @@
   <form class="form-inline">
     <div class="input-group">
       <span class="input-group-addon card-outline-success">PA Server</span>
-      <input type="text" class="form-control card-outline-success" id="pa-server" size="32"
+      <input type="text" class="form-control card-outline-success" id="current-pa-server"
+             size="32"
              aria-describedby="basic-addon1"
              placeholder="Select PA Server">
     </div>
     <div class="input-group">
       <span class="input-group-addon text-primary">Host</span>
-      <div class="btn-group" (on-toggle)="onChange($event)">
-        <button type="button"
+      <div class="btn-group">
+        <button type="button" id="selected-host"
                 class="form-control btn btn-outline-warning dropdown-toggle"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 aria-describedby="basic-addon1">
-          Select Host
+          {{ this.hostService.currentHost | async }}
         </button>
-        <div class="dropdown-menu" >
-          <a href="#" class="dropdown-item" *ngFor="let host of hosts">{{ host.name }}</a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item" (click)="onHostSelect($event)"
+             *ngFor="let host of hosts">{{ host.name }}</a>
         </div>
       </div>
     </div>
