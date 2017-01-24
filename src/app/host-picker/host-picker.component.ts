@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HostService} from '../host.service';
 import {Host} from "../host";
-import {CompleterService, CompleterData} from "ng2-completer";
+import {CompleterService, CompleterData, CompleterItem} from "ng2-completer";
 
 @Component({
   selector: 'app-host-picker',
@@ -10,6 +10,7 @@ import {CompleterService, CompleterData} from "ng2-completer";
 })
 export class HostPickerComponent implements OnInit {
   // private hosts_observer = this.hostService.loadHosts();
+  private currentHostTimeZone: string;
   errorMessage: string;
   hosts:        Host[];
   private searchStr:    string;
@@ -49,9 +50,15 @@ export class HostPickerComponent implements OnInit {
     // console.log(event.target.value);
   }
 
-  onHostSelect(event) {
-    // use host selected from dropdown menu
-    this.hostService.setCurrentHost(event.target.text);
-    console.log(event.target.text);
+  onHostSelect(selected: CompleterItem) {
+    console.log(selected);
+    if (selected) {
+      this.currentHostTimeZone = selected.originalObject.time_zone;
+    } else {
+      console.log("SELECTION WEIRD!");
+    }
+    // this.hostService.setCurrentHost(event.target.text);
+    // this.currentHostTimeZone = event.target.time_zone;
+    // console.log(event.target.text);
   }
 }
