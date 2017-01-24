@@ -8,6 +8,7 @@ import { HostData }               from "./host-data";
 import { AppComponent }           from './app.component';
 import { HostService }            from './host.service';
 import { HostPickerComponent }    from './host-picker/host-picker.component';
+import {Ng2CompleterModule}       from "ng2-completer";
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { HostPickerComponent }    from './host-picker/host-picker.component';
   ],
   imports: [
     BrowserModule,
+    Ng2CompleterModule,
     FormsModule,
     HttpModule,
     InMemoryWebApiModule.forRoot(HostData)
