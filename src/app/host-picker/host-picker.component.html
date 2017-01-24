@@ -11,16 +11,19 @@
     <div class="input-group">
       <span class="input-group-addon text-primary">Host</span>
       <div class="btn-group">
-        <button type="button" id="selected-host"
-                class="form-control btn btn-outline-warning dropdown-toggle"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                aria-describedby="basic-addon1">
-          {{ this.hostService.currentHost | async }}
-        </button>
-        <div class="dropdown-menu">
-          <a href="#" class="dropdown-item" (click)="onHostSelect($event)"
-             *ngFor="let host of hosts">{{ host.name }}</a>
-        </div>
+        <ng2-completer class="form-control card-outline-info" name="host-picker"
+                       [(ngModel)]="searchStr" [dataService]="dataService" [minSearchLength]="0">
+        </ng2-completer>
+        <!--<button type="button" id="selected-host"-->
+                <!--class="form-control btn btn-outline-warning dropdown-toggle"-->
+                <!--data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"-->
+                <!--aria-describedby="basic-addon1">-->
+          <!--{{ this.hostService.currentHost | async }}-->
+        <!--</button>-->
+        <!--<div class="dropdown-menu">-->
+          <!--<a href="#" class="dropdown-item" (click)="onHostSelect($event)"-->
+             <!--*ngFor="let host of hosts">{{ host.name }}</a>-->
+        <!--</div>-->
       </div>
     </div>
     <!--<select class="nav-item form-control" id="selected-host" (change)="onChange($event)"-->
@@ -33,7 +36,7 @@
       <span class="input-group-addon">TimeZone</span>
       <span id="host_time_zone" class="text-primary input-group-addon"
             aria-describedby="basic-addon1">
-        N / A
+        No Host Selected
       </span>
     </div>
 
