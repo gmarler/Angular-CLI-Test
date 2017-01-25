@@ -5,8 +5,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './subsystem.component.html',
   styleUrls: ['./subsystem.component.css']
 })
+
 export class SubsystemComponent implements OnInit {
-  private currentSubsystem: string;
+  private currentSubsystem: Object;
   private subsystemData =   [
     { id: 1, name: 'CPU'},
     { id: 2, name: 'MEMORY' },
@@ -18,6 +19,7 @@ export class SubsystemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.currentSubsystem = this.subsystemData[1];
   }
 
 }
