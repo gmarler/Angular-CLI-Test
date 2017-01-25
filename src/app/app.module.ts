@@ -21,7 +21,7 @@ import {Ng2CompleterModule}       from 'ng2-completer';
     Ng2CompleterModule,
     FormsModule,
     HttpModule,
-    InMemoryWebApiModule.forRoot(HostData)
+    // InMemoryWebApiModule.forRoot(HostData)
   ],
   providers: [HostService],
   bootstrap: [AppComponent]

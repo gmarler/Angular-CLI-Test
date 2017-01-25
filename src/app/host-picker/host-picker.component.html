@@ -17,7 +17,8 @@
       <span class="btn btn-outline-info">Host</span>
       <div class="btn-group">
         <ng2-completer class="form-control btn btn-outline-info" name="selected-host"
-                       [(ngModel)]="HostSearchStr" [dataService]="dataService" [minSearchLength]="1"
+                       [(ngModel)]="HostSearchStr" [dataService]="hostService"
+                       [minSearchLength]="1"
                        [placeholder]="'Select Host'" [textNoResults]="'NO MATCH'"
                        (selected)="onHostSelect($event)">
         </ng2-completer>

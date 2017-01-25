@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {HostService} from '../host.service';
-import {Host} from "../host";
-import {CompleterService, CompleterData, CompleterItem} from "ng2-completer";
+import {Host} from '../host';
+import {CompleterService, CompleterData, CompleterItem} from 'ng2-completer';
+import {Http} from '@angular/http';
 
 @Component({
   selector: 'app-host-picker',
   templateUrl: './host-picker.component.html',
   styleUrls: ['./host-picker.component.css']
 })
-export class HostPickerComponent implements OnInit {
-  // private hosts_observer = this.hostService.loadHosts();
+export class HostPickerComponent {
   private currentHostTimeZone: string;
   errorMessage: string;
   hosts:        Host[];
   private HostSearchStr: string;
   private PASearchStr:   string;
-  private dataService:   CompleterData;
+  private hostService:   CompleterData;
   private PAService:     CompleterData;
   private searchData =   [
     { id: 1, name: 'fwsse37',  time_zone: 'US/Central' },
@@ -29,22 +28,13 @@ export class HostPickerComponent implements OnInit {
     { id: 1, name: 'nydevsol10.dev.bloomberg.com' }
   ];
 
-  constructor(private hostService: HostService,
-              private completerService: CompleterService) {
-    this.dataService = completerService.local(this.searchData, 'name', 'name');
+  constructor(private completerService: CompleterService,
+              http: Http) {
+    this.hostService = completerService.remote(
+      'http://nydevsol10.dev.bloomberg.com:5000/hosts?',
+      '',
+      'name');
     this.PAService   = completerService.local(this.PAServers,  'name', 'name');
-  }
-
-  ngOnInit() {
-    this.getHosts();
-  }
-
-  getHosts() {
-    this.hostService.getHosts()
-      .subscribe(
-        hosts => this.hosts = hosts,
-        error => this.errorMessage = <any>error
-      );
   }
 
   onChange(event) {
