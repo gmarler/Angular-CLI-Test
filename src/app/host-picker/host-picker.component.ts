@@ -29,7 +29,7 @@ export class HostPickerComponent {
   ];
 
   constructor(private completerService: CompleterService,
-              http: Http) {
+              private http:             Http) {
     this.hostService = completerService.remote(
       'http://nydevsol10.dev.bloomberg.com:5000/hosts?',
       '',
