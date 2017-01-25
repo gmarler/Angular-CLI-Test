@@ -3,16 +3,21 @@
   <form class="form-inline">
     <div class="input-group">
       <span class="input-group-addon card-outline-success">PA Server</span>
-      <input type="text" class="form-control card-outline-success" id="current-pa-server"
-             size="32"
-             aria-describedby="basic-addon1"
-             placeholder="Select PA Server">
+      <ng2-completer class="form-control card-outline-success" name="current-pa-server"
+                     [(ngModel)]="PASearchStr" [dataService]="PAService" [minSearchLength]="1"
+                     [placeholder]="'Select PA Server'" [textNoResults]="'NO MATCH'"
+                     (selected)="onHostSelect($event)">
+      </ng2-completer>
+      <!--<input type="text" class="form-control card-outline-success" id="current-pa-server"-->
+             <!--size="32"-->
+             <!--aria-describedby="basic-addon1"-->
+             <!--placeholder="Select PA Server">-->
     </div>
     <div class="input-group">
       <span class="btn btn-outline-info">Host</span>
       <div class="btn-group">
         <ng2-completer class="form-control btn btn-outline-info" name="selected-host"
-                       [(ngModel)]="searchStr" [dataService]="dataService" [minSearchLength]="1"
+                       [(ngModel)]="HostSearchStr" [dataService]="dataService" [minSearchLength]="1"
                        [placeholder]="'Select Host'" [textNoResults]="'NO MATCH'"
                        (selected)="onHostSelect($event)">
         </ng2-completer>

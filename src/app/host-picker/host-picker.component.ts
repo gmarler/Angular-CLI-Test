@@ -13,9 +13,11 @@ export class HostPickerComponent implements OnInit {
   private currentHostTimeZone: string;
   errorMessage: string;
   hosts:        Host[];
-  private searchStr:    string;
-  private dataService:  CompleterData;
-  private searchData = [
+  private HostSearchStr: string;
+  private PASearchStr:   string;
+  private dataService:   CompleterData;
+  private PAService:     CompleterData;
+  private searchData =   [
     { id: 1, name: 'fwsse37',  time_zone: 'US/Central' },
     { id: 2, name: 'fwsse38',  time_zone: 'US/Central' },
     { id: 3, name: 'control',  time_zone: 'US/Eastern' },
@@ -23,10 +25,14 @@ export class HostPickerComponent implements OnInit {
     { id: 5, name: 'sundev51', time_zone: 'US/Eastern' },
     { id: 6, name: 'pine',     time_zone: 'US/Pacific' }
   ];
+  private PAServers = [
+    { id: 1, name: 'nydevsol10.dev.bloomberg.com' }
+  ];
 
   constructor(private hostService: HostService,
               private completerService: CompleterService) {
     this.dataService = completerService.local(this.searchData, 'name', 'name');
+    this.PAService   = completerService.local(this.PAServers,  'name', 'name');
   }
 
   ngOnInit() {
