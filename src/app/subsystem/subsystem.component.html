@@ -1,3 +1,8 @@
 <nav class="navbar navbar-light bg-faded">
   <h1 class="navbar-brand mb-0">Subsystems</h1>
+  <div class="nav navbar-nav">
+    <a *ngFor="let subsystem of subsystemData" class="nav-item nav-link" href="#">
+      {{ subsystem.name }}
+    </a>
+  </div>
 </nav>

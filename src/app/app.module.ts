@@ -10,13 +10,15 @@ import { HostService }            from './host.service';
 import { HostPickerComponent }    from './host-picker/host-picker.component';
 import {Ng2CompleterModule}       from 'ng2-completer';
 import { SubsystemComponent } from './subsystem/subsystem.component';
+import { MetricComponent } from './metric/metric.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HostPickerComponent,
-    SubsystemComponent
+    SubsystemComponent,
+    MetricComponent
   ],
   imports: [
     BrowserModule,
