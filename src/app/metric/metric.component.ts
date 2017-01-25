@@ -7,27 +7,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MetricComponent implements OnInit {
   private currentMetric: string;
-  private metricData =   [
-    { id: 1, name: 'CPU',
+  private metricData = {
+    'CPU': {
       metrics: [
         'Utilization'
       ]
     },
-    { id: 2, name: 'MEMORY',
+    'MEMORY': {
       metrics: [
         'memstat', 'VM Scan Rate', 'freemem'
       ]
     },
-    { id: 3, name: 'FILESYSTEM',
+    'FILESYSTEM': {
       metrics: []
     },
-    { id: 4, name: 'NETWORK',
+    'NETWORK': {
       metrics: []
     },
-    { id: 5, name: 'KERNEL STACKS',
+    'KERNEL STACKS': {
       metrics: []
     }
-  ];
+  };
 
   constructor() { }
 

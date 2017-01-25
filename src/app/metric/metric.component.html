@@ -1,8 +1,9 @@
 <nav class="navbar navbar-light bg-faded">
   <h1 class="navbar-brand mb-0">Metric</h1>
   <div class="nav navbar-nav">
-    <a *ngFor="let metrics of metricData" class="nav-item nav-link" href="#">
-      {{ metric.name }}
+    <a *ngFor="let metric of metricData['MEMORY']['metrics']" class="nav-item nav-link"
+       href="#">
+      {{ metric }}
     </a>
   </div>
 </nav>
