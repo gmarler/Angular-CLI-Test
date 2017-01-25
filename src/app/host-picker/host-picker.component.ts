@@ -32,7 +32,7 @@ export class HostPickerComponent {
               private http:             Http) {
     this.hostService = completerService.remote(
       'http://nydevsol10.dev.bloomberg.com:5000/hosts?',
-      '',
+      'name',
       'name');
     this.PAService   = completerService.local(this.PAServers,  'name', 'name');
   }
