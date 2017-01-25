@@ -2,7 +2,7 @@
   <h1 class="navbar-brand mb-0">Performance Analytics for Solaris</h1>
   <form class="form-inline">
     <div class="input-group">
-      <span class="input-group-addon card-outline-success">PA Server</span>
+      <span class="input-group-addon">PA Server</span>
       <ng2-completer class="form-control card-outline-success" name="current-pa-server"
                      [(ngModel)]="PASearchStr" [dataService]="PAService" [minSearchLength]="1"
                      [placeholder]="'Select PA Server'" [textNoResults]="'NO MATCH'"
@@ -12,7 +12,7 @@
     </div>
 
     <div class="input-group">
-      <span class="input-group-addon card-outline-info">Host</span>
+      <span class="input-group-addon">Host</span>
       <ng2-completer class="form-control card-outline-info" name="selected-host"
                      [(ngModel)]="HostSearchStr" [dataService]="hostService"
                      [minSearchLength]="1"
@@ -27,7 +27,7 @@
             aria-describedby="basic-addon1" *ngIf="!currentHostTimeZone">
         No Host Selected
       </span>
-      <span id="host_time_zone" class="text-primary input-group-addon"
+      <span id="host_time_zone" class="text-primary input-group-addon card-outline-success"
             aria-describedby="basic-addon1" *ngIf="currentHostTimeZone">
         {{ currentHostTimeZone }}
       </span>
