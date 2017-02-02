@@ -1,10 +1,10 @@
-import { AngularCLITestPage } from './app.po';
+import { AngularCliTestPage } from './app.po';
 
 describe('angular-cli-test App', function() {
-  let page: AngularCLITestPage;
+  let page: AngularCliTestPage;
 
   beforeEach(() => {
-    page = new AngularCLITestPage();
+    page = new AngularCliTestPage();
   });
 
   it('should display message saying app works', () => {
