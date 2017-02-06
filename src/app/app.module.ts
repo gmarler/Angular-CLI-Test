@@ -11,6 +11,7 @@ import { HostPickerComponent }    from './host-picker/host-picker.component';
 import {Ng2CompleterModule}       from 'ng2-completer';
 import { SubsystemComponent } from './subsystem/subsystem.component';
 import { MetricComponent } from './metric/metric.component';
+import { MemstatComponent } from './shared/memstat/memstat.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { MetricComponent } from './metric/metric.component';
     AppComponent,
     HostPickerComponent,
     SubsystemComponent,
-    MetricComponent
+    MetricComponent,
+    MemstatComponent
   ],
   imports: [
     BrowserModule,
