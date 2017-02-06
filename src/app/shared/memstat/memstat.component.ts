@@ -27,6 +27,10 @@ export class MemstatComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit() {
+    this.createChart();
+    if (this.data) {
+      this.updateChart();
+    }
   }
 
   ngOnChanges() {
