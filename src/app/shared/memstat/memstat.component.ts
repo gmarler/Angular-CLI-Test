@@ -49,8 +49,15 @@ export class MemstatComponent implements OnInit, OnChanges {
 
   createChart() {
     let element = this.chartContainer.nativeElement;
+
+    // let document_height = d3.select(document).height();
+    // let used_height     = d3.select('body').height();
+    // let remaining_height = document_height - used_height;
+
     this.width  = element.offsetWidth  - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top  - this.margin.bottom;
+    console.log(element.offsetHeight);
+    console.log(element.getBoundingClientRect());
     let svg = d3.select(element).append('svg')
       .attr('width', element.offsetWidth)
       .attr('height', element.offsetHeight);
