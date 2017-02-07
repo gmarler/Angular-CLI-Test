@@ -22,9 +22,10 @@ export class MemstatComponent implements OnInit, OnChanges {
   private xAxisScale: any;
   private yScale:     any;
   private yAxisScale: any;
-  private color:     any;
+  private color:      any;
   private xAxis:      any;
   private yAxis:      any;
+  private legend:     any;
   // Specify the order in which we stack the data in the graph, from the Y axis up
   // NOTE: We're currently excluding: Guest and defump_prealloc
   private keys_in_order: Array<String> =
@@ -77,6 +78,16 @@ export class MemstatComponent implements OnInit, OnChanges {
 
     this.color = d3.scaleOrdinal(d3.schemeCategory20);
 
+    // Define the color map domain in key order
+    this.color.domain(
+      this.keys_in_order
+        .filter(
+          function(key) {
+            return (key !== 'timestamp' && key !== 'total_bytes' && key !== 'guest');
+          }
+        )
+    );
+
     // Define the X and Y axes
     this.xAxis = svg.append('g')
       .attr('class', 'axis axis-x')
@@ -87,6 +98,39 @@ export class MemstatComponent implements OnInit, OnChanges {
       .attr('class', 'axis axis-y')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
       .call(d3.axisLeft(this.yAxisScale));
+
+    this.legend = d3.select('svg').selectAll(".legend")
+      .data(this.color.domain().slice().reverse())
+      .enter()
+      .append('g')
+      .attr('class', 'legend')
+      .attr('transform', function(d,i) { return `translate(35,` + i * 25 + `)`; });
+
+    this.legend.append('rect')
+      // .attr('x', this.width + this.margin.left + this.margin.right - 18)
+      .attr('x', this.width - 18)
+      .attr('width',  18)
+      .attr('height', 18)
+      .style('fill', this.color);
+
+    this.legend.append('text')
+      .attr('x', this.width - 24)
+      .attr('y', 9)
+      .attr('dy', '.35em')
+      .style('text-anchor', 'end')
+      .text(function(d) {
+        const regex1 = /_bytes$/;
+        const regex2 = /^(.)/;
+        const regex3 = /_/g;
+        const regex4 = /zfs/gi;
+        let cvt_name = d;
+        cvt_name = cvt_name.replace(regex1, "");
+        cvt_name = cvt_name.replace(regex2,function (s) { return s.toUpperCase(); });
+        cvt_name = cvt_name.replace(regex3, " ");
+        // cvt_name = cvt_name.replace(/\_(.)/g, function (s = $1) { return s.toUpperCase() });
+        cvt_name = cvt_name.replace(regex4,function (s) { return s.toUpperCase(); });
+        return cvt_name;
+      })
   }
 
   updateChart() {
