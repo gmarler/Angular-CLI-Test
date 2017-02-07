@@ -22,7 +22,7 @@ export class MemstatComponent implements OnInit, OnChanges {
   private xAxisScale: any;
   private yScale:     any;
   private yAxisScale: any;
-  private colors:     any;
+  private color:     any;
   private xAxis:      any;
   private yAxis:      any;
   // Specify the order in which we stack the data in the graph, from the Y axis up
@@ -63,7 +63,23 @@ export class MemstatComponent implements OnInit, OnChanges {
     // Define the X and Y Scales
     this.xAxisScale = d3.scaleTime().range([0,this.width]);
 
+    this.yAxisScale = d3.scaleLinear().range([this.height,0]);
+    // Set the Y Axis Scale Domain - it's static in this case at 0 to 100 percent,
+    // unlike the X Axis Scale, which is constantly increasing.
+    this.yAxisScale.domain([0, 1]);
 
+    this.color = d3.scaleOrdinal(d3.schemeCategory20);
+
+    // Define the X and Y axes
+    this.xAxis = svg.append('g')
+      .attr('class', 'axis axis-x')
+      .attr('transform', `translate(${this.margin.left}, ${this.margin.top + this.height})`)
+      .call(d3.axisBottom(this.xAxisScale));
+
+    this.yAxis = svg.append('g')
+      .attr('class', 'axis axis-y')
+      .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
+      .call(d3.axisLeft(this.yAxisScale));
   }
 
   updateChart() {
