@@ -130,7 +130,7 @@ export class MemstatComponent implements OnInit, OnChanges {
         // cvt_name = cvt_name.replace(/\_(.)/g, function (s = $1) { return s.toUpperCase() });
         cvt_name = cvt_name.replace(regex4,function (s) { return s.toUpperCase(); });
         return cvt_name;
-      })
+      });
   }
 
   updateChart() {
