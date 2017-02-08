@@ -26,7 +26,7 @@ import { MemstatComponent } from './shared/memstat/memstat.component';
     BrowserModule,
     Ng2CompleterModule,
     FormsModule,
-    HttpModule,
+    HttpModule
     // InMemoryWebApiModule.forRoot(HostData)
   ],
   providers: [HostService],
