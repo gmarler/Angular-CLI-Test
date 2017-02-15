@@ -197,7 +197,9 @@ export class MemstatComponent implements OnInit, OnChanges {
       };
     }));
 
+    //
     // GENERAL UPDATE PATTERN
+    //
     // JOIN - Join new/updated data
     // var binding = svg.selectAll('div').data(data);
     let memtypeSelection =
@@ -206,10 +208,32 @@ export class MemstatComponent implements OnInit, OnChanges {
 
     //
     // UPDATE - Update existing elements as needed
-    // binding.style('background-color', 'blue');
+    //
     // Apply the updated xAxisScale to the xAxis
-    console.log(this.xAxis);
     this.xAxis.scale(this.xAxisScale);
+    // Update the xAxis
+    this.chart
+      .select(".x")
+      .transition()
+      .duration(1000)
+      .call(this.xAxis);
+    // Add the latest values to each area's path
+    memtypeSelection
+      .select("path")
+      .transition()
+      .duration(1000)
+      .attr("d", function(d) { return this.area(d.values); });
+
+    //
+    // ENTER - Create new elements as needed
+    //
+    memtypeSelection
+      .enter()
+      .append("g")
+      .append("path")
+      .attr("class", "area")
+      .attr("d", function(d) { return this.area(d.values); })
+      .style("fill", function(d) { return this.color(d.name); });
   }
 }
 
