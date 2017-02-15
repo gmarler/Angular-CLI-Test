@@ -2,6 +2,7 @@ import {Component, OnInit, OnChanges, Input, ViewChild, ElementRef} from '@angul
 import * as d3 from 'd3';
 import {Http} from "@angular/http";
 import {Observable} from "rxjs";
+import {timestamp} from "rxjs/operator/timestamp";
 
 // From Example at:
 // https://github.com/keathmilligan/angular2-d3-v4
@@ -51,6 +52,7 @@ export class MemstatComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.createChart();
+    // One shot timer for initial test data load
     let timer = Observable.timer(1000);//
 
     timer.subscribe( t => { console.log(this.data); this.updateChart(); } );
@@ -73,12 +75,14 @@ export class MemstatComponent implements OnInit, OnChanges {
     // let remaining_height = document_height - used_height;
 
     this.width  = element.offsetWidth  - this.margin.left - this.margin.right;
-    this.height = element.offsetHeight - this.margin.top  - this.margin.bottom;
+    // this.height = element.offsetHeight - this.margin.top  - this.margin.bottom;
+    this.height = 1024 - this.margin.top  - this.margin.bottom;
     console.log(element.offsetHeight);
     console.log(element.getBoundingClientRect());
     let svg = d3.select(element).append('svg')
       .attr('width', element.offsetWidth)
-      .attr('height', element.offsetHeight);
+      // .attr('height', element.offsetHeight);
+      .attr('height', 1024);
 
     // chart's plot area
     this.chart = svg.append('g')
@@ -125,16 +129,16 @@ export class MemstatComponent implements OnInit, OnChanges {
 
 
     this.area = d3.area()
-      .x(function(d){ console.log(d);
-                        return 1;
-                        // return this.xAxisScale(d.data.timestamp);
-                        // return this.xAxisScale(d.timestamp);
-                      })
-      .y0(function(d) { return this.yAxisScale(d[0]); })
-      .y1(function(d) { return this.yAxisScale(d[1]); });
+      .x(function(d: any)  { return this.xAxisScale(d.timestamp); } )
+      .y0(function(d)      { return this.yAxisScale(d[0]); })
+      .y1(function(d)      { return this.yAxisScale(d[1]); });
 
-    this.stack = d3.stack();
-       // .keys(function(d) { return d.values; });
+    this.stack = d3.stack()
+      .order(d3.stackOrderNone)
+      .offset(d3.stackOffsetNone);
+
+    this.stack
+       .keys(this.keys_in_order);
 
     this.legend = d3.select('svg').selectAll(".legend")
       .data(this.color.domain().slice().reverse())
@@ -171,6 +175,7 @@ export class MemstatComponent implements OnInit, OnChanges {
   }
 
   updateChart() {
+    console.log('ENTER updateChart()');
     let currentData = this.data;
 
     currentData.forEach(function(d) {
@@ -185,7 +190,6 @@ export class MemstatComponent implements OnInit, OnChanges {
     this.xAxisScale
       .domain(d3.extent(currentData, function(d) { return d.timestamp; }));
 
-
     // Update values for each area to be stacked
     let memtypes = this.stack(this.color.domain().map(function(name) {
       return {
@@ -197,11 +201,15 @@ export class MemstatComponent implements OnInit, OnChanges {
       };
     }));
 
+    // Use these instead of this.<funcname>() below
+    let areaFunc = this.area;
+    let colorFunc = this.color;
+
     //
     // GENERAL UPDATE PATTERN
     //
     // JOIN - Join new/updated data
-    // var binding = svg.selectAll('div').data(data);
+    //
     let memtypeSelection =
       this.chart.selectAll(".memtype")
         .data(memtypes);
@@ -224,7 +232,7 @@ export class MemstatComponent implements OnInit, OnChanges {
       .select("path")
       .transition()
       .duration(1000)
-      .attr("d", function(d) { return this.area(d.values); });
+      .attr("d", function(d) { return areaFunc(d.values); });
 
     //
     // ENTER - Create new elements as needed
@@ -234,8 +242,8 @@ export class MemstatComponent implements OnInit, OnChanges {
       .append("g")
       .append("path")
       .attr("class", "area")
-      .attr("d", function(d) { return this.area(d.values); })
-      .style("fill", function(d) { return this.color(d.name); });
+      .attr("d", function(d) { return areaFunc(d.values); })
+      .style("fill", function(d) { console.log(colorFunc(d.key)); return colorFunc(d.key); });
 
     //
     // UPDATE + ENTER - Appending to the enter selection expands the update selection
