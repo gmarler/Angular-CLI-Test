@@ -211,12 +211,14 @@ export class MemstatComponent implements OnInit, OnChanges {
     //
     // Apply the updated xAxisScale to the xAxis
     this.xAxis.scale(this.xAxisScale);
+
     // Update the xAxis
     this.chart
       .select(".x")
       .transition()
       .duration(1000)
       .call(this.xAxis);
+
     // Add the latest values to each area's path
     memtypeSelection
       .select("path")
@@ -234,6 +236,33 @@ export class MemstatComponent implements OnInit, OnChanges {
       .attr("class", "area")
       .attr("d", function(d) { return this.area(d.values); })
       .style("fill", function(d) { return this.color(d.name); });
+
+    //
+    // UPDATE + ENTER - Appending to the enter selection expands the update selection
+    // to include the entering elements; so operations on the update selection after
+    // enter() will apply to both entering and updating nodes
+    // binding.style('width', function(d) { return d * 50 + 'px'; })
+    //        .text(function(d) { return d; });
+    // Update X Axis Text
+    this.xAxisGroup
+      .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", ".15em")
+      .attr("transform", function(d) {
+        return "rotate(-55)"
+      });
+
+    // Y Axis Does not require updating in this case...
+
+    memtypeSelection
+      .attr("class", "memtype");
+
+    //
+    // EXIT - Remove old nodes as needed
+    // binding.exit().style('background-color', 'red').remove();
+    //
+    memtypeSelection.exit().remove();
   }
 }
 
