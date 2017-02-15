@@ -1,5 +1,7 @@
 import {Component, OnInit, OnChanges, Input, ViewChild, ElementRef} from '@angular/core';
 import * as d3 from 'd3';
+import {Http} from "@angular/http";
+import {Observable} from "rxjs";
 
 // From Example at:
 // https://github.com/keathmilligan/angular2-d3-v4
@@ -33,10 +35,17 @@ export class MemstatComponent implements OnInit, OnChanges {
       'zfs_metadata_bytes', 'zfs_file_data_bytes', 'free_cachelist_bytes',
       'free_freelist_bytes' ];
 
-  constructor() { }
+  constructor(private http: Http) {
+    let mydata = this.data;
+
+    this.http.get('sundev51-memstat-20170215.json')
+      .subscribe( res => this.data = res.json() );
+  }
 
   ngOnInit() {
     this.createChart();
+    let timer = Observable.timer(1000);
+    timer.subscribe( t => { console.log(this.data); this.updateChart(); } );
     if (this.data) {
       this.updateChart();
     }
