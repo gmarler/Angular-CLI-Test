@@ -128,10 +128,13 @@ export class MemstatComponent implements OnInit, OnChanges {
       .call(this.yAxis);
 
 
+    // Set up the lexical vars, so we don't use this.<funcname> in the following callbacks
+    let xAxisScale = this.xAxisScale;
+    let yAxisScale = this.yAxisScale;
     this.area = d3.area()
-      .x(function(d: any)  { return this.xAxisScale(d.timestamp); } )
-      .y0(function(d)      { return this.yAxisScale(d[0]); })
-      .y1(function(d)      { return this.yAxisScale(d[1]); });
+      .x(function(d: any)  { console.log(d); return xAxisScale(d.timestamp); } )
+      .y0(function(d)      { return yAxisScale(d[0]); })
+      .y1(function(d)      { return yAxisScale(d[1]); });
 
     this.stack = d3.stack()
       .order(d3.stackOrderNone)
@@ -190,20 +193,24 @@ export class MemstatComponent implements OnInit, OnChanges {
     this.xAxisScale
       .domain(d3.extent(currentData, function(d) { return d.timestamp; }));
 
+    // Use these instead of this.<funcname>() below
+    let areaFunc = this.area;
+    let colorFunc = this.color;
+
     // Update values for each area to be stacked
-    let memtypes = this.stack(this.color.domain().map(function(name) {
+    let memtypes = this.stack(colorFunc.domain().map(function(name) {
+      console.log('NAME: ' + name);
       return {
         name: name,
         values: currentData.map(function(d) {
           let obj = {timestamp: d.timestamp, y: d[name] / d.total_bytes };
+          // console.log(obj);
           return obj;
         })
       };
     }));
 
-    // Use these instead of this.<funcname>() below
-    let areaFunc = this.area;
-    let colorFunc = this.color;
+    console.log(memtypes);
 
     //
     // GENERAL UPDATE PATTERN
@@ -211,7 +218,7 @@ export class MemstatComponent implements OnInit, OnChanges {
     // JOIN - Join new/updated data
     //
     let memtypeSelection =
-      this.chart.selectAll(".memtype")
+      this.chart.selectAll('.memtype')
         .data(memtypes);
 
     //
@@ -222,28 +229,28 @@ export class MemstatComponent implements OnInit, OnChanges {
 
     // Update the xAxis
     this.chart
-      .select(".x")
+      .select('.x')
       .transition()
       .duration(1000)
       .call(this.xAxis);
 
     // Add the latest values to each area's path
     memtypeSelection
-      .select("path")
+      .select('path')
       .transition()
       .duration(1000)
-      .attr("d", function(d) { return areaFunc(d.values); });
+      .attr('d', areaFunc );
 
     //
     // ENTER - Create new elements as needed
     //
     memtypeSelection
       .enter()
-      .append("g")
-      .append("path")
-      .attr("class", "area")
-      .attr("d", function(d) { return areaFunc(d.values); })
-      .style("fill", function(d) { console.log(colorFunc(d.key)); return colorFunc(d.key); });
+      .append('g')
+      .append('path')
+      .attr('class', 'area')
+      .attr('d', areaFunc )
+      .style('fill', function(d) { console.log(colorFunc(d.key)); return colorFunc(d.key); });
 
     //
     // UPDATE + ENTER - Appending to the enter selection expands the update selection
