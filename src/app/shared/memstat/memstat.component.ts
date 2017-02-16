@@ -25,6 +25,7 @@ export class MemstatComponent implements OnInit, OnChanges {
   private xAxisScale:    any;
   private yScale:        any;
   private yAxisScale:    any;
+  private yAxisScaleRAM: any;
   private color:         any;
   // Axis entities
   private xAxis:         any;
@@ -70,19 +71,30 @@ export class MemstatComponent implements OnInit, OnChanges {
   createChart() {
     let element = this.chartContainer.nativeElement;
 
-    // let document_height = d3.select(document).height();
-    // let used_height     = d3.select('body').height();
-    // let remaining_height = document_height - used_height;
+    let window_inner_height = window.innerHeight;
+    let window_outer_height = window.outerHeight;
+    console.log('Window Inner Height: ' + window_inner_height);
+    console.log('Window Outer Height: ' + window_outer_height);
+    let host_picker_height  = d3.select('app-host-picker').property('firstChild').getBoundingClientRect().height;
+    let subsystem_height = d3.select('app-subsystem').property('firstChild').getBoundingClientRect().height;
+    let metric_height = d3.select('app-metric').property('firstChild').getBoundingClientRect().height;
+    console.log(host_picker_height);
+    console.log(subsystem_height);
+    console.log(metric_height);
+
+    let remaining_height = window_outer_height - host_picker_height -
+                           subsystem_height - metric_height -
+                           this.margin.top  - this.margin.bottom;
 
     this.width  = element.offsetWidth  - this.margin.left - this.margin.right;
-    // this.height = element.offsetHeight - this.margin.top  - this.margin.bottom;
-    this.height = 768 - this.margin.top  - this.margin.bottom;
+    this.height = remaining_height
+                  - this.margin.top  - this.margin.bottom;
     console.log(element.offsetHeight);
     console.log(element.getBoundingClientRect());
     let svg = d3.select(element).append('svg')
       .attr('width', element.offsetWidth)
       // .attr('height', element.offsetHeight);
-      .attr('height', 768);
+      .attr('height', remaining_height);
 
     // chart's plot area
     this.chart = svg.append('g')
@@ -96,6 +108,8 @@ export class MemstatComponent implements OnInit, OnChanges {
     // Set the Y Axis Scale Domain - it's static in this case at 0 to 100 percent,
     // unlike the X Axis Scale, which is constantly increasing.
     this.yAxisScale.domain([0, 1]);
+    // Use a Y axis that shows actual RAM size
+    this.yAxisScaleRAM = d3.scaleLinear().range([this.height, 0]);
 
     this.color = d3.scaleOrdinal(d3.schemeCategory20);
 
