@@ -141,7 +141,7 @@ export class MemstatComponent implements OnInit, OnChanges {
       .enter()
       .append('g')
       .attr('class', 'legend')
-      .attr('transform', function(d,i) { return `translate(35,` + i * 25 + `)`; });
+      .attr('transform', function(d,i) { return `translate(205,` + i * 25 + `)`; });
 
     this.legend.append('rect')
       // .attr('x', this.width + this.margin.left + this.margin.right - 18)
