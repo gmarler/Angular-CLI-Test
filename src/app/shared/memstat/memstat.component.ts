@@ -30,6 +30,7 @@ export class MemstatComponent implements OnInit, OnChanges {
   // Axis entities
   private xAxis:         any;
   private yAxis:         any;
+  private yAxisRAM:      any;
   // Axis svg 'g' Group Elements
   private xAxisGroup:    any;
   private yAxisGroup:    any;
@@ -120,8 +121,14 @@ export class MemstatComponent implements OnInit, OnChanges {
     this.xAxis = d3.axisBottom(this.xAxisScale)
       .tickFormat(d3.timeFormat("%Y-%m-%d %X"));
 
+    // Define the left Y Axis (percentage of RAM)
     this.yAxis = d3.axisLeft(this.yAxisScale)
       .ticks(10, '%');
+
+    // Define the right Y Axis (amount of RAM)
+    this.yAxisRAM = d3.axisRight(this.yAxisScaleRAM)
+      .ticks(7)
+      .tickFormat(d3.format('.0s'));
 
     // Define the X axis g element
     this.xAxisGroup = this.chart.append('g')
@@ -133,8 +140,14 @@ export class MemstatComponent implements OnInit, OnChanges {
     // Create Y Axis g Element
     this.yAxisGroup = this.chart.append('g')
       .attr('class', 'y axis axis-y')
-      //.attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
       .call(this.yAxis);
+
+
+    // TODO: Don't actually create this until we have data
+    // this.yAxisGroupRAM = this.chart.append('g')
+    //   .attr('class', 'yRAM axis axis-yRAM')
+    //   //.attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
+    //   .call(this.yAxisRAM);
 
 
     // Set up the lexical vars, so we don't use this.<funcname> in the following callbacks
@@ -163,7 +176,7 @@ export class MemstatComponent implements OnInit, OnChanges {
         function(d,i) {
           // can't use this.margin.top here - using top_margin instead
           let vertical_offset = ((i * 20) + top_margin);
-          return `translate(0,${vertical_offset})`;
+          return `translate(200,${vertical_offset})`;
         }
       );
 
@@ -196,8 +209,23 @@ export class MemstatComponent implements OnInit, OnChanges {
 
   updateChart() {
     console.log('ENTER updateChart()');
-    let currentData = this.data;
-    let keys        = this.keys_in_order;
+    let currentData     = this.data;
+    let keys            = this.keys_in_order;
+
+    // Create Y Axis RAM g Element - if it doesn't exist yet
+    if (typeof(this.yAxisGroupRAM) === 'undefined') {
+      let totalRAMinBytes = currentData[0].total_bytes;
+      console.log('TOTAL RAM IN BYTES: ' + totalRAMinBytes);
+
+      this.yAxisScaleRAM
+        .domain([0, totalRAMinBytes]);
+
+      this.yAxisGroupRAM =
+        this.chart.append('g')
+          .attr('class', 'yRAM axis axis-yRAM')
+          .attr('transform', `translate(${this.width},0)`)
+          .call(this.yAxisRAM);
+    }
 
     currentData.forEach(function(d) {
       // convert Epoch seconds timestamp into Epoch millisec timestamp so it can be converted
