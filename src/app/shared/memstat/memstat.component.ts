@@ -112,13 +112,14 @@ export class MemstatComponent implements OnInit, OnChanges {
     // Define the X axis g element
     this.xAxisGroup = this.chart.append('g')
       .attr('class', 'x axis axis-x')
-      .attr('transform', `translate(${this.margin.left}, ${this.margin.top + this.height})`)
+      // .attr('transform', `translate(${this.margin.left}, ${this.margin.top + this.height})`)
+      .attr('transform', `translate(0, ${this.height})`)
       .call(this.xAxis);
 
     // Create Y Axis g Element
     this.yAxisGroup = this.chart.append('g')
       .attr('class', 'y axis axis-y')
-      .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
+      //.attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
       .call(this.yAxis);
 
 
