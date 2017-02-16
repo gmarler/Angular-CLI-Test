@@ -100,14 +100,7 @@ export class MemstatComponent implements OnInit, OnChanges {
     this.color = d3.scaleOrdinal(d3.schemeCategory20);
 
     // Define the color map domain in key order
-    this.color.domain(
-      this.keys_in_order
-        .filter(
-          function(key) {
-            return (key !== 'timestamp' && key !== 'total_bytes' && key !== 'guest');
-          }
-        )
-    );
+    this.color.domain(this.keys_in_order);
 
     // Define the X Axis
     this.xAxis = d3.axisBottom(this.xAxisScale)
@@ -132,13 +125,11 @@ export class MemstatComponent implements OnInit, OnChanges {
     let xAxisScale = this.xAxisScale;
     let yAxisScale = this.yAxisScale;
     this.area = d3.area()
-      .x(function(d: any)  { console.log(d); return xAxisScale(d.timestamp); } )
+      .x(function(d: any)  { return xAxisScale(d.data.timestamp); } )
       .y0(function(d)      { return yAxisScale(d[0]); })
       .y1(function(d)      { return yAxisScale(d[1]); });
 
-    this.stack = d3.stack()
-      .order(d3.stackOrderNone)
-      .offset(d3.stackOffsetNone);
+    this.stack = d3.stack();
 
     this.stack
        .keys(this.keys_in_order);
@@ -180,6 +171,7 @@ export class MemstatComponent implements OnInit, OnChanges {
   updateChart() {
     console.log('ENTER updateChart()');
     let currentData = this.data;
+    let keys        = this.keys_in_order;
 
     currentData.forEach(function(d) {
       // convert Epoch seconds timestamp into Epoch millisec timestamp so it can be converted
@@ -187,6 +179,11 @@ export class MemstatComponent implements OnInit, OnChanges {
       // WARNING: This will be in the local timezone of the browser you load this into!
       d.timestamp = new Date((d.timestamp * 1000));
       // console.log(d);
+      keys.forEach(
+        function(statname: string) {
+          d[statname] /= d['total_bytes'];
+        }
+      );
     });
 
     // Recalculate the xAxisScale
@@ -197,21 +194,6 @@ export class MemstatComponent implements OnInit, OnChanges {
     let areaFunc = this.area;
     let colorFunc = this.color;
 
-    // Update values for each area to be stacked
-    let memtypes = this.stack(colorFunc.domain().map(function(name) {
-      console.log('NAME: ' + name);
-      return {
-        name: name,
-        values: currentData.map(function(d) {
-          let obj = {timestamp: d.timestamp, y: d[name] / d.total_bytes };
-          // console.log(obj);
-          return obj;
-        })
-      };
-    }));
-
-    console.log(memtypes);
-
     //
     // GENERAL UPDATE PATTERN
     //
@@ -219,7 +201,7 @@ export class MemstatComponent implements OnInit, OnChanges {
     //
     let memtypeSelection =
       this.chart.selectAll('.memtype')
-        .data(memtypes);
+        .data(this.stack(currentData));
 
     //
     // UPDATE - Update existing elements as needed
@@ -247,10 +229,11 @@ export class MemstatComponent implements OnInit, OnChanges {
     memtypeSelection
       .enter()
       .append('g')
+      .attr('class', 'memtype')
       .append('path')
       .attr('class', 'area')
-      .attr('d', areaFunc )
-      .style('fill', function(d) { console.log(colorFunc(d.key)); return colorFunc(d.key); });
+      .style('fill', function(d) { console.log(colorFunc(d.key)); return colorFunc(d.key); })
+      .attr('d', areaFunc );
 
     //
     // UPDATE + ENTER - Appending to the enter selection expands the update selection
