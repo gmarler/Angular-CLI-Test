@@ -76,13 +76,13 @@ export class MemstatComponent implements OnInit, OnChanges {
 
     this.width  = element.offsetWidth  - this.margin.left - this.margin.right;
     // this.height = element.offsetHeight - this.margin.top  - this.margin.bottom;
-    this.height = 900 - this.margin.top  - this.margin.bottom;
+    this.height = 768 - this.margin.top  - this.margin.bottom;
     console.log(element.offsetHeight);
     console.log(element.getBoundingClientRect());
     let svg = d3.select(element).append('svg')
       .attr('width', element.offsetWidth)
       // .attr('height', element.offsetHeight);
-      .attr('height', 900);
+      .attr('height', 768);
 
     // chart's plot area
     this.chart = svg.append('g')
