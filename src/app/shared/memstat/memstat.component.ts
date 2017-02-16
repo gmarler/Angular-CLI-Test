@@ -18,7 +18,7 @@ export class MemstatComponent implements OnInit, OnChanges {
   @Input() private data: Array<any>;
 
   private chart:         any;
-  private margin:        any = {top: 20, right: 155, bottom: 140, left: 75};
+  private margin:        any = {top: 5, right: 155, bottom: 120, left: 45};
   private width:         number;
   private height:        number;
   private xScale:        any;
@@ -144,7 +144,7 @@ export class MemstatComponent implements OnInit, OnChanges {
       .enter()
       .append('g')
       .attr('class', 'legend')
-      .attr('transform', function(d,i) { return `translate(205,` + i * 25 + `)`; });
+      .attr('transform', function(d,i) { return `translate(0,` + i * 20 + `)`; });
 
     this.legend.append('rect')
       // .attr('x', this.width + this.margin.left + this.margin.right - 18)
