@@ -53,7 +53,7 @@ export class MemstatComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.createChart();
     // One shot timer for initial test data load
-    let timer = Observable.timer(1000);//
+    let timer = Observable.timer(1000);
 
     timer.subscribe( t => { console.log(this.data); this.updateChart(); } );
     if (this.data) {
@@ -76,13 +76,13 @@ export class MemstatComponent implements OnInit, OnChanges {
 
     this.width  = element.offsetWidth  - this.margin.left - this.margin.right;
     // this.height = element.offsetHeight - this.margin.top  - this.margin.bottom;
-    this.height = 1024 - this.margin.top  - this.margin.bottom;
+    this.height = 900 - this.margin.top  - this.margin.bottom;
     console.log(element.offsetHeight);
     console.log(element.getBoundingClientRect());
     let svg = d3.select(element).append('svg')
       .attr('width', element.offsetWidth)
       // .attr('height', element.offsetHeight);
-      .attr('height', 1024);
+      .attr('height', 900);
 
     // chart's plot area
     this.chart = svg.append('g')
