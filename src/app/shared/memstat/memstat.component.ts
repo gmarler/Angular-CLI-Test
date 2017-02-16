@@ -139,12 +139,19 @@ export class MemstatComponent implements OnInit, OnChanges {
     this.stack
        .keys(this.color.domain());
 
+    let top_margin = this.margin.top;
     this.legend = d3.select('svg').selectAll(".legend")
       .data(this.color.domain().slice().reverse())
       .enter()
       .append('g')
       .attr('class', 'legend')
-      .attr('transform', function(d,i) { return `translate(0,` + i * 20 + `)`; });
+      .attr('transform',
+        function(d,i) {
+          // can't use this.margin.top here - using top_margin instead
+          let vertical_offset = ((i * 20) + top_margin);
+          return `translate(0,${vertical_offset})`;
+        }
+      );
 
     this.legend.append('rect')
       // .attr('x', this.width + this.margin.left + this.margin.right - 18)
