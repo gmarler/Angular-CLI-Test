@@ -142,14 +142,6 @@ export class MemstatComponent implements OnInit, OnChanges {
       .attr('class', 'y axis axis-y')
       .call(this.yAxis);
 
-
-    // TODO: Don't actually create this until we have data
-    // this.yAxisGroupRAM = this.chart.append('g')
-    //   .attr('class', 'yRAM axis axis-yRAM')
-    //   //.attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
-    //   .call(this.yAxisRAM);
-
-
     // Set up the lexical vars, so we don't use this.<funcname> in the following callbacks
     let xAxisScale = this.xAxisScale;
     let yAxisScale = this.yAxisScale;
@@ -212,7 +204,9 @@ export class MemstatComponent implements OnInit, OnChanges {
     let currentData     = this.data;
     let keys            = this.keys_in_order;
 
-    // Create Y Axis RAM g Element - if it doesn't exist yet
+    // Create Y Axis RAM g Element - if it doesn't exist yet - we do this here instead
+    // of on chart creation because we need initial data to know the domain and add
+    // the axis to the graph
     if (typeof(this.yAxisGroupRAM) === 'undefined') {
       let totalRAMinBytes = currentData[0].total_bytes;
       console.log('TOTAL RAM IN BYTES: ' + totalRAMinBytes);
