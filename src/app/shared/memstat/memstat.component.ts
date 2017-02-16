@@ -106,7 +106,8 @@ export class MemstatComponent implements OnInit, OnChanges {
     this.xAxis = d3.axisBottom(this.xAxisScale)
       .tickFormat(d3.timeFormat("%Y-%m-%d %X"));
 
-    this.yAxis = d3.axisLeft(this.yAxisScale);
+    this.yAxis = d3.axisLeft(this.yAxisScale)
+      .ticks(10, '%');
 
     // Define the X axis g element
     this.xAxisGroup = this.chart.append('g')
