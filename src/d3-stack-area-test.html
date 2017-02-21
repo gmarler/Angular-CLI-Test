@@ -12,12 +12,13 @@
 
 <script>
   var svg = d3.select("svg"),
-    margin = {top: 20, right: 20, bottom: 30, left: 50},
+    margin = {top: 20, right: 155, bottom: 30, left: 50},
     width = svg.attr("width") - margin.left - margin.right,
     height = svg.attr("height") - margin.top - margin.bottom;
 
   var x = d3.scaleTime().range([0, width]),
       y = d3.scaleLinear().range([height, 0]),
+      yRAM = d3.scaleLinear().range([height, 0]),
       z = d3.scaleOrdinal(d3.schemeCategory20);
 
   var stack = d3.stack();
@@ -36,6 +37,12 @@
         "zfs_metadata_bytes", "zfs_file_data_bytes", "free_cachelist_bytes",
         "free_freelist_bytes" ];
       console.log(keys);
+
+      let totalRAMinBytes = data[0].total_bytes;
+      console.log('TOTAL RAM IN BYTES: ' + totalRAMinBytes);
+
+      yRAM
+        .domain([Math.pow(2,0), Math.pow(2,40)]);
 
       data.forEach(function(d) {
         // convert Epoch seconds timestamp into Epoch millisec timestamp so it can be converted
@@ -71,6 +78,15 @@
       g.append("g")
         .attr("class", "axis axis--y")
         .call(d3.axisLeft(y).ticks(10, "%"));
+
+      g.append("g")
+        .attr("class", "axis axis--yRAM")
+        .attr("transform", "translate(" + width + ",0)")
+        .call(d3.axisRight(yRAM).tickFormat(d3.format('.0s')).tickValues(
+          [0, 128 * Math.pow(2,30), 256 * Math.pow(2,30), 512 * Math.pow(2,30),
+           768 * Math.pow(2,30),
+           Math.pow(2,40)])
+        );
     }
   );
 
