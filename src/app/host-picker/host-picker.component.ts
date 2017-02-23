@@ -9,6 +9,7 @@ import {Http} from '@angular/http';
   styleUrls: ['./host-picker.component.css']
 })
 export class HostPickerComponent {
+  datetime_start:        string;
   private currentHostTimeZone: string;
   errorMessage: string;
   hosts:        Host[];

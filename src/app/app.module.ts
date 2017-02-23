@@ -3,15 +3,16 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { InMemoryWebApiModule }   from 'angular-in-memory-web-api';
-import { HostData }               from "./host-data";
-import { AppComponent }           from './app.component';
-import { HostService }            from './host.service';
-import { HostPickerComponent }    from './host-picker/host-picker.component';
-import {Ng2CompleterModule}       from 'ng2-completer';
-import { SubsystemComponent } from './subsystem/subsystem.component';
-import { MetricComponent } from './metric/metric.component';
-import { MemstatComponent } from './shared/memstat/memstat.component';
+import { InMemoryWebApiModule }    from 'angular-in-memory-web-api';
+import { HostData }                from "./host-data";
+import { AppComponent }            from './app.component';
+import { HostService }             from './host.service';
+import { HostPickerComponent }     from './host-picker/host-picker.component';
+import {Ng2CompleterModule}        from 'ng2-completer';
+import { SubsystemComponent }      from './subsystem/subsystem.component';
+import { MetricComponent }         from './metric/metric.component';
+import { MemstatComponent }        from './shared/memstat/memstat.component';
+import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { MemstatComponent } from './shared/memstat/memstat.component';
     BrowserModule,
     Ng2CompleterModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    Ng2DatetimePickerModule
     // InMemoryWebApiModule.forRoot(HostData)
   ],
   providers: [HostService],
