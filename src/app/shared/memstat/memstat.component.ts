@@ -127,8 +127,7 @@ export class MemstatComponent implements OnInit, OnChanges {
 
     // Define the right Y Axis (amount of RAM)
     this.yAxisRAM = d3.axisRight(this.yAxisScaleRAM)
-      .ticks(7)
-      .tickFormat(d3.format('.0s'));
+         .tickFormat(d3.format('.0s'));
 
     // Define the X axis g element
     this.xAxisGroup = this.chart.append('g')
@@ -211,8 +210,25 @@ export class MemstatComponent implements OnInit, OnChanges {
       let totalRAMinBytes = currentData[0].total_bytes;
       console.log('TOTAL RAM IN BYTES: ' + totalRAMinBytes);
 
+      let i: number;
+      let RAMscaleValues: Array<number> = [];
+
+      for (i = 0; i < 40; i++) {
+        if (Math.pow(2,i) <= totalRAMinBytes) {
+          RAMscaleValues.push(Math.pow(2,i));
+        }
+      }
+      RAMscaleValues = [
+        0, (128 * Math.pow(2,30)), (256 * Math.pow(2,30)), (512 * Math.pow(2,30)),
+        (1024 * Math.pow(2,30))
+      ];
+      console.log(RAMscaleValues);
+
       this.yAxisScaleRAM
         .domain([0, totalRAMinBytes]);
+
+      this.yAxisRAM
+        .tickValues(RAMscaleValues);
 
       this.yAxisGroupRAM =
         this.chart.append('g')
