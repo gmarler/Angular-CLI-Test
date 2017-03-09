@@ -1,8 +1,10 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { RouterModule, Routes } from '@angular/router';
+import { BrowserModule }           from '@angular/platform-browser';
+import { NgModule }                from '@angular/core';
+import { FormsModule }             from '@angular/forms';
+import { HttpModule }              from '@angular/http';
+import { RouterModule, Routes }    from '@angular/router';
+import { LocationStrategy,
+         HashLocationStrategy }    from '@angular/common';
 
 import { InMemoryWebApiModule }    from 'angular-in-memory-web-api';
 import { HostData }                from "./host-data";
@@ -46,8 +48,8 @@ const routes: Routes = [
     // InMemoryWebApiModule.forRoot(HostData)
   ],
   providers: [
-    HostService // ,
-    // { provide: LocationStrategy, useClass: HashLocationStrategy },
+    HostService,
+    { provide: LocationStrategy, useClass: HashLocationStrategy } // ,
     // { provide: APP_BASE_HREF,    useValue: '/' }
   ],
   bootstrap: [AppComponent]
