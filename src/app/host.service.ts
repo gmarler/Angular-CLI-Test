@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 
 import {environment} from '../environments/environment';
 import {Host} from './host';
-import any = jasmine.any;
+// import any = jasmine.any;
 
 let initialHostList: Array<Host> = [];
 // TODO: This service should just be to provide the list of PA Server hosts
