@@ -41,25 +41,25 @@ describe('HostService', () => {
     });
   }
 
-  describe('getHosts', () => {
-    it('Retrieves host list',
-      inject([HostService,MockBackend],
-        fakeAsync((svc, mockBackend) => {
-            let res;
-            mockBackend.connections.subscribe(c => {
-              expect(c.request.url).toBe(`http://${svcHost}:${svcPort}/hosts`);
-              let response = new ResponseOptions({body: '{"name": "fwsse37", "id": "1", "time_zone": "US/Eastern"}'});
-              c.mockRespond(new Response(response));
-          });
-            expectURL = mockBackend, `http://${svcHost}:${svcPort}/hosts`;
-            svc.getHosts().subscribe((res_) => {
-              res = res_;
-            });
-            tick();
-            expect(res.name).toBe('fwsse37');
-            expect(res.id).toBe('1');
-            expect(res.time_zone).toBe('US/Eastern');
-          }))
-    );
-  });
+  // describe('getHosts', () => {
+  //   it('Retrieves host list',
+  //     inject([HostService,MockBackend],
+  //       fakeAsync((svc, mockBackend) => {
+  //           let res;
+  //           mockBackend.connections.subscribe(c => {
+  //             expect(c.request.url).toBe(`http://${svcHost}:${svcPort}/hosts`);
+  //             let response = new ResponseOptions({body: '{"name": "fwsse37", "id": "1", "time_zone": "US/Eastern"}'});
+  //             c.mockRespond(new Response(response));
+  //         });
+  //           expectURL = mockBackend, `http://${svcHost}:${svcPort}/hosts`;
+  //           svc.getHosts().subscribe((res_) => {
+  //             res = res_;
+  //           });
+  //           tick();
+  //           expect(res.name).toBe('fwsse37');
+  //           expect(res.id).toBe('1');
+  //           expect(res.time_zone).toBe('US/Eastern');
+  //         }))
+  //   );
+  // });
 });
